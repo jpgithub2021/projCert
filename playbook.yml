@@ -9,10 +9,10 @@
     service:
       name: docker
       state: started
-  - name: Create a redis container
+  - name: Pull
     docker_container:
       name: data1
-      image: centos
+      image: devopsedu
       state: started
       recreate: yes
       exposed_ports:
