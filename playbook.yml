@@ -1,15 +1,19 @@
 ---
-- hosts: webservers
-  become: true
-  become_user: root
+- hosts: localhost
   tasks:
-  - name: install httpd
-    yum: name=httpd state=present
-  - name: start httpd
-    service: name=httpd state=started
-  - name: deploy html file
-    copy: src=index.html dest=/var/www/html
-    notify: restart httpd
-  handlers:
-  - name: restart httpd
-    service: name=httpd state=restarted
+  - name: Install docker.
+    package:
+      name: docker-ce
+      state: present
+  - name: Start docker service
+    service:
+      name: docker
+      state: started
+  - name: Create a redis container
+    docker_container:
+      name: data1
+      image: centos
+      state: started
+      recreate: yes
+      exposed_ports:
+        - 8080
